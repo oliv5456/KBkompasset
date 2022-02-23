@@ -19,6 +19,7 @@ function Compass() {
   const [errorText, setErrorText] = useState<String>("");
   const [latitude, setLatitude] = useState<Number>();
   const [longitude, setLongitude] = useState<Number>();
+  const kbLocation = [55.7864419, 12.5234279];
 
   function getLocation() {
     if (navigator.geolocation) {
@@ -45,10 +46,14 @@ function Compass() {
 
   return (
     <>
+      <p>{errorText}</p>
+      <button onClick={getLocation}>Get lokation</button>
       <h1>
-        <p>{errorText}</p>
-        <button onClick={getLocation}>Get lokation</button>
         Lat: {latitude} Long: {longitude}
+      </h1>
+
+      <h1>
+        Kælder Baren: {kbLocation[0]}, {kbLocation[1]}
       </h1>
     </>
   );
