@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
+import compass from "../public/compass.svg";
 
 const Home: NextPage = () => {
   return (
@@ -21,13 +22,13 @@ function Compass() {
   const [longitude, setLongitude] = useState<Number>();
   const kbLocation = [55.7864419, 12.5234279];
 
-  function getLocation() {
+  const getLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(positionCallback, errorCallback);
     } else {
       setErrorText("Din browser har ikke geo lokation aktiveret");
     }
-  }
+  }, []);
 
   function positionCallback(position: GeolocationPosition) {
     const posLat = position.coords.latitude;
@@ -42,7 +43,9 @@ function Compass() {
     setErrorText(positionError.message);
   }
 
-  useEffect(() => {});
+  useEffect(() => {
+    getLocation();
+  }, [getLocation]);
 
   return (
     <>
