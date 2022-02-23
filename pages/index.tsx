@@ -34,10 +34,11 @@ function Compass() {
 
     setLatitude(posLat);
     setLongitude(posLong);
+    setErrorText("");
   }
 
   function errorCallback(positionError: GeolocationPositionError) {
-    console.log(positionError);
+    setErrorText(positionError.message);
   }
 
   useEffect(() => {});
