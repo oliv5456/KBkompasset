@@ -72,7 +72,8 @@ function Compass() {
   useEffect(() => {
     getLocation();
     getDistance;
-  }, [getLocation, getDistance]);
+    getHeading;
+  }, [getLocation, getDistance, getHeading]);
 
   return (
     <>
