@@ -16,26 +16,37 @@ const Home: NextPage = () => {
 };
 
 function Compass() {
+  const [errorText, setErrorText] = useState<String>("");
   const [latitude, setLatitude] = useState<Number>();
   const [longitude, setLongitude] = useState<Number>();
 
   function getLocation() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const posLat = position.coords.latitude;
-      const posLong = position.coords.longitude;
-
-      setLatitude(posLat);
-      setLongitude(posLong);
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.watchPosition(positionCallback, errorCallback);
+    } else {
+      setErrorText("Din browser har ikke geo lokation aktiveret");
+    }
   }
 
-  useEffect(() => {
-    getLocation();
-  });
+  function positionCallback(position: GeolocationPosition) {
+    const posLat = position.coords.latitude;
+    const posLong = position.coords.longitude;
+
+    setLatitude(posLat);
+    setLongitude(posLong);
+  }
+
+  function errorCallback(positionError: GeolocationPositionError) {
+    console.log(positionError);
+  }
+
+  useEffect(() => {});
 
   return (
     <>
       <h1>
+        <p>{errorText}</p>
+        <button onClick={getLocation}>Get lokation</button>
         Lat: {latitude} Long: {longitude}
       </h1>
     </>
