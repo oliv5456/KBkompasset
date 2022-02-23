@@ -1,26 +1,25 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import styles from "../styles/Home.module.css";
-import compass from "../public/compass.svg";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import compassImg from "../public/compass.svg";
+import styled, { CompassTheme } from "styled-components";
 
 const Home: NextPage = () => {
   return (
     <>
       <Compass />
-      <div>
-        <h1>Min side</h1>
-      </div>
     </>
   );
 };
 
 function Compass() {
   const [errorText, setErrorText] = useState<String>("");
-  const [latitude, setLatitude] = useState<Number>();
-  const [longitude, setLongitude] = useState<Number>();
-  const kbLocation = [55.7864419, 12.5234279];
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
+
+  const kbLocationLat = 55.7864419;
+  const kbLocationLon = 12.5234279;
 
   const getLocation = useCallback(() => {
     if (navigator.geolocation) {
@@ -29,6 +28,33 @@ function Compass() {
       setErrorText("Din browser har ikke geo lokation aktiveret");
     }
   }, []);
+
+  const getDistance = useMemo(() => {
+    let lat1: number = (latitude * Math.PI) / 180;
+    let lon1: number = (longitude * Math.PI) / 180;
+    let kbLat: number = (kbLocationLat * Math.PI) / 180;
+    let kbLon: number = (kbLocationLon * Math.PI) / 180;
+
+    let distLat: number = lat1 - kbLat;
+    let distLon: number = lon1 - kbLon;
+
+    let a =
+      Math.pow(Math.sin(distLat / 2), 2) +
+      Math.cos(lat1) * Math.cos(kbLat) * Math.pow(Math.sin(distLon / 2), 2);
+
+    let c = 2 * Math.asin(Math.sqrt(a));
+    //calculate to m
+    let radius = 3956;
+
+    return c * radius * 1000;
+  }, [latitude, longitude]);
+
+  const getHeading = useMemo(() => {
+    let directionX = Math.sin(longitude - latitude);
+    let directionY = Math.sin(kbLocationLon - kbLocationLat);
+
+    return Math.atan2(directionX, directionY);
+  }, [latitude, longitude]);
 
   function positionCallback(position: GeolocationPosition) {
     const posLat = position.coords.latitude;
@@ -45,7 +71,8 @@ function Compass() {
 
   useEffect(() => {
     getLocation();
-  }, [getLocation]);
+    getDistance;
+  }, [getLocation, getDistance]);
 
   return (
     <>
@@ -55,9 +82,24 @@ function Compass() {
         Lat: {latitude} Long: {longitude}
       </h1>
 
+      <h1>Distance: {getDistance} meter</h1>
+
       <h1>
-        Kælder Baren: {kbLocation[0]}, {kbLocation[1]}
+        Kælder Baren: {kbLocationLat}, {kbLocationLon}
       </h1>
+
+      <div
+        style={{
+          display: "flex",
+          position: "absolute",
+          justifyContent: "center",
+          alignContent: "center",
+          transform: `rotate(${getHeading}deg)`,
+          transformOrigin: "center",
+        }}
+      >
+        <Image src={compassImg} alt="Compass"></Image>
+      </div>
     </>
   );
 }
