@@ -76,9 +76,15 @@ function Compass() {
 
   function handleOrientation(event: DeviceOrientationEvent) {
     setAbsolute(event.absolute);
-    setAlpha(event.alpha);
+    if (event.webkitCompassHeading) {
+      setAlpha(event.webkitCompassHeading);
+    } else {
+      setAlpha(event.alpha);
+    }
     setBeta(event.beta);
     setGamma(event.gamma);
+
+    event.webkitCompassHeadning;
   }
 
   useEffect(() => {
