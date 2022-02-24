@@ -18,6 +18,11 @@ function Compass() {
   const [latitude, setLatitude] = useState<number>(0);
   const [longitude, setLongitude] = useState<number>(0);
 
+  const [absolute, setAbsolute] = useState<boolean>();
+  const [alpha, setAlpha] = useState<number | null>();
+  const [beta, setBeta] = useState<number | null>();
+  const [gamma, setGamma] = useState<number | null>();
+
   const kbLocationLat = 55.7864419;
   const kbLocationLon = 12.5234279;
 
@@ -69,21 +74,28 @@ function Compass() {
     setErrorText(positionError.message);
   }
 
+  function handleOrientation(event: DeviceOrientationEvent) {
+    setAbsolute(event.absolute);
+    setAlpha(event.alpha);
+    setBeta(event.beta);
+    setGamma(event.gamma);
+  }
+
   useEffect(() => {
+    window.addEventListener("deviceorientation", handleOrientation, true);
     getLocation();
-    getDistance;
-    getHeading;
-  }, [getLocation, getDistance, getHeading]);
+  }, [getLocation]);
 
   return (
     <>
       <p>{errorText}</p>
-      <button onClick={getLocation}>Get lokation</button>
+      <button onClick={getLocation}>Start kompas</button>
       <h1>
         Lat: {latitude} Long: {longitude}
       </h1>
 
       <h1>Distance: {getDistance} meter</h1>
+      <h1>Orientation {alpha}</h1>
 
       <h1>
         Kælder Baren: {kbLocationLat}, {kbLocationLon}
@@ -95,7 +107,7 @@ function Compass() {
           position: "absolute",
           justifyContent: "center",
           alignContent: "center",
-          transform: `rotate(${getHeading}deg)`,
+          transform: `rotate(${alpha}deg)`,
           transformOrigin: "center",
         }}
       >
