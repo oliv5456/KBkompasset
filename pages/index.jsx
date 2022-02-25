@@ -27,6 +27,7 @@ function Compass() {
   const [errorText, setErrorText] = useState("");
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
+  const [orientation, setOrientation] = useState(0);
 
   const [absolute, setAbsolute] = useState();
   const [alpha, setAlpha] = useState();
@@ -90,6 +91,7 @@ function Compass() {
     setAbsolute(event.absolute);
     if (event.webkitCompassHeading) {
       setAlpha(event.webkitCompassHeading);
+      setOrientation(alpha - getDirection());
     } else {
       setAlpha(event.alpha);
     }
@@ -135,7 +137,7 @@ function Compass() {
           position: "absolute",
           justifyContent: "center",
           alignContent: "center",
-          transform: `rotate(${alpha - getDirection}deg)`,
+          transform: `rotate(${orientation}deg)`,
           transformOrigin: "center",
         }}
       >
