@@ -43,6 +43,15 @@ function Compass() {
       setErrorText("Din browser har ikke geo lokation aktiveret");
     }
   }, []);
+  
+  function getDirection() {
+    let dTeta = Math.log(Math.tan(kbLocationLat/2)+(Math.PI/4)/Math.tan((latitude/2)+(Math.PI/4)));
+    let dLon = Math.abs(longitude - kbLocationLon);
+    let teta = Math.atan2(dLon, dTeta);
+    let direction = Math.round(teta * 180 / Math.PI);
+
+    return direction;
+    }
 
   const getDistance = useMemo(() => {
     let lat1 = (latitude * Math.PI) / 180;
@@ -62,13 +71,6 @@ function Compass() {
     let radius = 3956;
 
     return c * radius * 1000;
-  }, [latitude, longitude]);
-
-  const getHeading = useMemo(() => {
-    let directionX = Math.sin(longitude - latitude);
-    let directionY = Math.sin(kbLocationLon - kbLocationLat);
-
-    return Math.atan2(directionX, directionY);
   }, [latitude, longitude]);
 
   function positionCallback(position) {
@@ -125,7 +127,7 @@ function Compass() {
       </h1>
 
       <h1>Distance: {getDistance} meter</h1>
-      <h1>Orientation {alpha}</h1>
+      <h1>Orientation {getDirection}</h1>
 
       <h1>
         Kælder Baren: {kbLocationLat}, {kbLocationLon}
