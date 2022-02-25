@@ -82,7 +82,7 @@ function Compass() {
     webkitCompassHeading: number;
   }
 
-  function handleOrientation(event: WebkitDeviceOrientation) {
+  function handleOrientation(event: any) {
     setAbsolute(event.absolute);
     if (event.webkitCompassHeading) {
       setAlpha(event.webkitCompassHeading);
