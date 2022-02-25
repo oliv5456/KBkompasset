@@ -74,7 +74,15 @@ function Compass() {
     setErrorText(positionError.message);
   }
 
-  function handleOrientation(event: DeviceOrientationEvent) {
+  interface WebkitDeviceOrientation {
+    absolute: boolean;
+    alpha: number;
+    beta: number;
+    gamma: number;
+    webkitCompassHeading: number;
+  }
+
+  function handleOrientation(event: WebkitDeviceOrientation) {
     setAbsolute(event.absolute);
     if (event.webkitCompassHeading) {
       setAlpha(event.webkitCompassHeading);
@@ -84,7 +92,7 @@ function Compass() {
     setBeta(event.beta);
     setGamma(event.gamma);
 
-    event.webkitCompassHeadning;
+    event.webkitCompassHeading;
   }
 
   useEffect(() => {
