@@ -1,11 +1,10 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import compassImg from "../public/compass.svg";
 import styled, { CompassTheme } from "styled-components";
 
-const Home: NextPage = () => {
+const Home = () => {
   return (
     <>
       <Compass />
@@ -14,14 +13,14 @@ const Home: NextPage = () => {
 };
 
 function Compass() {
-  const [errorText, setErrorText] = useState<String>("");
-  const [latitude, setLatitude] = useState<number>(0);
-  const [longitude, setLongitude] = useState<number>(0);
+  const [errorText, setErrorText] = useState("");
+  const [latitude, setLatitude] = useState(0);
+  const [longitude, setLongitude] = useState(0);
 
-  const [absolute, setAbsolute] = useState<boolean>();
-  const [alpha, setAlpha] = useState<number | null>();
-  const [beta, setBeta] = useState<number | null>();
-  const [gamma, setGamma] = useState<number | null>();
+  const [absolute, setAbsolute] = useState();
+  const [alpha, setAlpha] = useState();
+  const [beta, setBeta] = useState();
+  const [gamma, setGamma] = useState();
 
   const kbLocationLat = 55.7864419;
   const kbLocationLon = 12.5234279;
@@ -35,13 +34,13 @@ function Compass() {
   }, []);
 
   const getDistance = useMemo(() => {
-    let lat1: number = (latitude * Math.PI) / 180;
-    let lon1: number = (longitude * Math.PI) / 180;
-    let kbLat: number = (kbLocationLat * Math.PI) / 180;
-    let kbLon: number = (kbLocationLon * Math.PI) / 180;
+    let lat1 = (latitude * Math.PI) / 180;
+    let lon1 = (longitude * Math.PI) / 180;
+    let kbLat = (kbLocationLat * Math.PI) / 180;
+    let kbLon = (kbLocationLon * Math.PI) / 180;
 
-    let distLat: number = lat1 - kbLat;
-    let distLon: number = lon1 - kbLon;
+    let distLat = lat1 - kbLat;
+    let distLon = lon1 - kbLon;
 
     let a =
       Math.pow(Math.sin(distLat / 2), 2) +
@@ -61,7 +60,7 @@ function Compass() {
     return Math.atan2(directionX, directionY);
   }, [latitude, longitude]);
 
-  function positionCallback(position: GeolocationPosition) {
+  function positionCallback(position) {
     const posLat = position.coords.latitude;
     const posLong = position.coords.longitude;
 
@@ -70,19 +69,11 @@ function Compass() {
     setErrorText("");
   }
 
-  function errorCallback(positionError: GeolocationPositionError) {
+  function errorCallback(positionError) {
     setErrorText(positionError.message);
   }
 
-  interface WebkitDeviceOrientation {
-    absolute: boolean;
-    alpha: number;
-    beta: number;
-    gamma: number;
-    webkitCompassHeading: number;
-  }
-
-  function handleOrientation(event: any) {
+  function handleOrientation(event) {
     setAbsolute(event.absolute);
     if (event.webkitCompassHeading) {
       setAlpha(event.webkitCompassHeading);
@@ -95,6 +86,20 @@ function Compass() {
     event.webkitCompassHeading;
   }
 
+  function handleClick() {
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      DeviceMotionEvent.requestPermission()
+        .then(permissionState => {
+          if (permissionState === 'granted') {
+            window.addEventListener('deviceorientation', handleOrientation, true);
+          }
+        })
+        .catch(console.error) 
+    } else {
+      window.addEventListener('deviceorientation', handleOrientation, true);
+    }
+  }
+
   useEffect(() => {
     window.addEventListener("deviceorientation", handleOrientation, true);
     getLocation();
@@ -103,7 +108,7 @@ function Compass() {
   return (
     <>
       <p>{errorText}</p>
-      <button onClick={getLocation}>Start kompas</button>
+      <button onClick={handleClick}>Start kompas</button>
       <h1>
         Lat: {latitude} Long: {longitude}
       </h1>
