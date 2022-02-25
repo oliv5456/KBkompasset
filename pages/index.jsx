@@ -135,7 +135,7 @@ function Compass() {
           position: "absolute",
           justifyContent: "center",
           alignContent: "center",
-          transform: `rotate(${alpha}deg)`,
+          transform: `rotate(${getDirection}deg)`,
           transformOrigin: "center",
         }}
       >
