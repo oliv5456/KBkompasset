@@ -100,6 +100,7 @@ function Compass() {
   }
 
   function handleClick() {
+    getLocation();
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
       DeviceMotionEvent.requestPermission()
         .then(permissionState => {
@@ -112,11 +113,6 @@ function Compass() {
       window.addEventListener('deviceorientation', handleOrientation, true);
     }
   }
-
-  useEffect(() => {
-    window.addEventListener("deviceorientation", handleOrientation, true);
-    getLocation();
-  }, [getLocation]);
 
   return (
     <>
