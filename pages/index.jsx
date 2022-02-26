@@ -28,6 +28,7 @@ function Compass() {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [orientation, setOrientation] = useState(0);
+  const [clicked, setClicked] = useState(false);
 
   const [absolute, setAbsolute] = useState();
   const [alpha, setAlpha] = useState();
@@ -114,7 +115,17 @@ function Compass() {
     } else {
       window.addEventListener('deviceorientation', handleOrientation, true);
     }
+
+    setClicked(true);
   }
+
+  useEffect(() => {
+    if (clicked) {
+      getDirection();
+      getDistance;
+      getLocation()
+    }
+  })
 
   return (
     <>
@@ -137,7 +148,7 @@ function Compass() {
           position: "absolute",
           justifyContent: "center",
           alignContent: "center",
-          transform: `rotate(${orientation}deg)`,
+          transform: `rotate(${getDirection}deg)`,
           transformOrigin: "center",
         }}
       >
