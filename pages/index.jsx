@@ -46,14 +46,15 @@ function Compass() {
     }
   }, []);
   
-  function getDirection() {
+  const getDirection = useCallback(() => {
+
     let dTeta = Math.log(Math.tan(kbLocationLat/2)+(Math.PI/4)/Math.tan((latitude/2)+(Math.PI/4)));
     let dLon = Math.abs(longitude - kbLocationLon);
     let teta = Math.atan2(dLon, dTeta);
     let direction = Math.round(teta * 180 / Math.PI);
 
     return direction;
-    }
+  }, [latitude, longitude])
 
   const getDistance = useMemo(() => {
     let lat1 = (latitude * Math.PI) / 180;
