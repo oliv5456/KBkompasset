@@ -89,7 +89,7 @@ function Compass() {
     setErrorText(positionError.message);
   }
 
-  function handleOrientation(event) {
+  const handleOrientation = useCallback((event) => {
     setAbsolute(event.absolute);
     if (event.webkitCompassHeading) {
       setAlpha(event.webkitCompassHeading);
@@ -101,7 +101,7 @@ function Compass() {
     setGamma(event.gamma);
 
     event.webkitCompassHeading;
-  }
+  }, [alpha, getDirection]);
 
   function handleClick() {
     getLocation();
