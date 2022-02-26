@@ -30,10 +30,7 @@ function Compass() {
   const [orientation, setOrientation] = useState(0);
   const [clicked, setClicked] = useState(false);
 
-  const [absolute, setAbsolute] = useState();
   const [alpha, setAlpha] = useState();
-  const [beta, setBeta] = useState();
-  const [gamma, setGamma] = useState();
 
   const kbLocationLat = 55.7864419;
   const kbLocationLon = 12.5234279;
@@ -90,15 +87,12 @@ function Compass() {
   }
 
   const handleOrientation = useCallback((event) => {
-    setAbsolute(event.absolute);
     if (event.webkitCompassHeading) {
       setAlpha(event.webkitCompassHeading);
-      setOrientation(alpha - getDirection());
+      setOrientation(getDirection());
     } else {
       setAlpha(event.alpha);
     }
-    setBeta(event.beta);
-    setGamma(event.gamma);
 
     event.webkitCompassHeading;
   }, [alpha, getDirection]);
