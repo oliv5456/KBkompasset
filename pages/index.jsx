@@ -137,7 +137,7 @@ function Compass() {
       </h1>
 
       <h1>Distance: {getDistance} meter</h1>
-      <h1>Orientation {getDirection} deg</h1>
+      <h1>Orientation {orientation} deg</h1>
 
       <h1>
         Kælder Baren: {kbLocationLat}, {kbLocationLon}
@@ -149,7 +149,7 @@ function Compass() {
           position: "absolute",
           justifyContent: "center",
           alignContent: "center",
-          transform: `rotate(${alpha}deg)`,
+          transform: `rotate(${orientation}deg)`,
           transformOrigin: "center",
         }}
       >
