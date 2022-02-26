@@ -124,9 +124,10 @@ function Compass() {
     if (clicked) {
       getDirection();
       getDistance;
-      getLocation()
+      getLocation();
+      handleOrientation();
     }
-  }, [clicked, getDirection, getDistance, getLocation])
+  }, [clicked, getDirection, getDistance, getLocation, handleOrientation])
 
   return (
     <>
