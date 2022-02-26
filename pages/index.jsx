@@ -95,7 +95,7 @@ function Compass() {
     }
 
     event.webkitCompassHeading;
-  }, [alpha, getDirection]);
+  }, [getDirection]);
 
   function handleClick() {
     getLocation();
