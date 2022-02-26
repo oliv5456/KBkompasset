@@ -93,8 +93,6 @@ function Compass() {
     } else {
       setAlpha(event.alpha);
     }
-
-    event.webkitCompassHeading;
   }, [getDirection]);
 
   function handleClick() {
