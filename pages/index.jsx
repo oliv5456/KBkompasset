@@ -125,7 +125,7 @@ function Compass() {
       getDistance;
       getLocation()
     }
-  })
+  }, [clicked, getDirection, getDistance, getLocation])
 
   return (
     <>
