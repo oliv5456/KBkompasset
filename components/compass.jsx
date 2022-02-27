@@ -7,7 +7,7 @@ export default function Compass({ targetLat, targetLon }) {
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
   const [orientation, setOrientation] = useState(0);
-  const [direction, setDirection] = useState(0);
+  const [distance, setDistance] = useState(0);
   const [angleDeg, setAngleDeg] = useState(0);
   const [clicked, setClicked] = useState(false);
 
@@ -47,7 +47,7 @@ export default function Compass({ targetLat, targetLon }) {
     let returnDeg =
       (Math.atan2(point1.x - point1.y, point2.x - point2.y) * 180) / Math.PI;
 
-    setDirection(returnDeg);
+    setAngleDeg(returnDeg);
     setOrientation(returnDeg - alpha);
     //setOrientation(alpha - returnDeg);
   }, [latitude, longitude, targetLat, targetLon, alpha]);
@@ -68,7 +68,7 @@ export default function Compass({ targetLat, targetLon }) {
     let c = 2 * Math.asin(Math.sqrt(a));
     //calculate to m
     let radius = 3956;
-    return setAngleDeg(c * radius * 1000);
+    return setDistance(c * radius * 1000);
   }, [latitude, longitude, targetLat, targetLon]);
 
   function handleClick() {
@@ -115,8 +115,8 @@ export default function Compass({ targetLat, targetLon }) {
         Lat: {latitude} Long: {longitude}
       </h1>
 
-      <h1>Distance: {angleDeg} meter</h1>
-      <h1>Direction: {direction}</h1>
+      <h1>Distance: {distance} meter</h1>
+      <h1>Direction: {angleDeg}</h1>
       <h1>Orientation {orientation} deg</h1>
 
       <h1>
