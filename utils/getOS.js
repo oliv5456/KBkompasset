@@ -1,4 +1,4 @@
-function getOS() {
+export default function getOS() {
     let userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
     // Windows Phone must come first because its UA also contains "Android"
