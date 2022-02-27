@@ -68,7 +68,7 @@ getDirection(lat1, lng1, lat2, lng2) {
       (Math.atan2(point1.x - point1.y, point2.x - point2.y) * 180) / Math.PI;
 
     setDirection(returnDeg);
-    setOrientation(returnDeg - alpha);
+    setOrientation(alpha - returnDeg);
   }, [latitude, longitude, targetLat, targetLon, alpha]);
 
   const getDistance = useMemo(() => {
