@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import compassImg from "../public/compass.svg";
+import * as device from "react-device-detect";
 
 export default function Compass({ targetLat, targetLon }) {
   const [errorText, setErrorText] = useState("");
@@ -48,7 +49,10 @@ export default function Compass({ targetLat, targetLon }) {
       (Math.atan2(point1.x - point1.y, point2.x - point2.y) * 180) / Math.PI;
 
     setAngleDeg(returnDeg);
-    setOrientation(returnDeg - alpha);
+
+    if (device.isIOS) setOrientation(returnDeg - alpha);
+    if (device.isAndroid) setOrientation(alpha - returnDeg);
+    if (device.isBrowser) setOrientation(returnDeg - alpha);
     //setOrientation(alpha - returnDeg);
   }, [latitude, longitude, targetLat, targetLon, alpha]);
 
