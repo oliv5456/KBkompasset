@@ -44,7 +44,7 @@ export default function Compass({ targetLat, targetLon }) {
     let direction = Math.round((teta * 180) / Math.PI);
 
     setDirection(direction);
-    setOrientation(alpha - direction);
+    setOrientation(direction - alpha);
   }, [latitude, longitude, targetLat, targetLon, alpha]);
 
   const getDistance = useMemo(() => {
