@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import compassImg from "../public/compass.svg";
+import getOS from "../utils/getOS";
 
 export default function Compass({ targetLat, targetLon }) {
   const [errorText, setErrorText] = useState("");
@@ -68,7 +69,8 @@ getDirection(lat1, lng1, lat2, lng2) {
       (Math.atan2(point1.x - point1.y, point2.x - point2.y) * 180) / Math.PI;
 
     setDirection(returnDeg);
-    setOrientation(returnDeg - alpha);
+    if (getOS === "iOS") setOrientation(returnDeg - alpha);
+    if (getOS === "Android") setOrientation(alpha - returnDeg);
   }, [latitude, longitude, targetLat, targetLon, alpha]);
 
   const getDistance = useMemo(() => {
