@@ -45,7 +45,8 @@ export default function Compass({ targetLat, targetLon }) {
     console.log("direction: " + direction);
 
     setDirection(direction);
-  }, [latitude, longitude, targetLat, targetLon]);
+    setOrientation(alpha - direction);
+  }, [latitude, longitude, targetLat, targetLon, alpha]);
 
   const getDistance = useMemo(() => {
     let lat1 = (latitude * Math.PI) / 180;
@@ -91,7 +92,6 @@ export default function Compass({ targetLat, targetLon }) {
   function handleOrientation(event) {
     if (event.webkitCompassHeading) {
       setAlpha(event.webkitCompassHeading);
-      setOrientation(direction - alpha);
     } else {
       setAlpha(event.alpha);
     }
