@@ -112,7 +112,7 @@ export default function Compass({ targetLat, targetLon }) {
       </h1>
 
       <h1>Distance: {getDistance} meter</h1>
-      <h1>Orientation {orientation} deg</h1>
+      <h1>Orientation {direction} deg</h1>
 
       <h1>
         Kælder Baren: {targetLat}, {targetLon}
