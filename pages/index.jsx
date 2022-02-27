@@ -86,14 +86,14 @@ function Compass() {
     setErrorText(positionError.message);
   }
 
-  const handleOrientation = useCallback((event) => {
+  function handleOrientation(event){
     if (event.webkitCompassHeading) {
       setAlpha(event.webkitCompassHeading);
       setOrientation(getDirection());
     } else {
       setAlpha(event.alpha);
     }
-  }, [getDirection]);
+  }
 
   function handleClick() {
     getLocation();
@@ -115,11 +115,10 @@ function Compass() {
   useEffect(() => {
     if (clicked) {
       getDirection();
-      getDistance;
       getLocation();
-      handleOrientation();
+      getDistance;
     }
-  }, [clicked, getDirection, getDistance, getLocation, handleOrientation])
+  }, [clicked, getDirection, getDistance, getLocation])
 
   return (
     <>
