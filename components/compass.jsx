@@ -42,10 +42,8 @@ export default function Compass({ targetLat, targetLon }) {
     let teta = Math.atan2(dLon, dTeta);
     let direction = Math.round((teta * 180) / Math.PI);
 
-    console.log("direction: " + direction);
-
     setDirection(direction);
-    setOrientation(alpha - direction);
+    setOrientation(alpha + direction);
   }, [latitude, longitude, targetLat, targetLon, alpha]);
 
   const getDistance = useMemo(() => {
