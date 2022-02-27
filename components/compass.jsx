@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useState, useMemo, useCallback, useEffect } from "react";
 import compassImg from "../public/compass.svg";
-import getOS from "../utils/getOS";
 
 export default function Compass({ targetLat, targetLon }) {
   const [errorText, setErrorText] = useState("");
@@ -36,26 +35,6 @@ export default function Compass({ targetLat, targetLon }) {
   }
 
   const getDirection = useCallback(() => {
-    /*
-getDirection(lat1, lng1, lat2, lng2) {
-	var PI = Math.PI;
-	var dTeta = Math.log(Math.tan((lat2/2)+(PI/4))/Math.tan((lat1/2)+(PI/4)));
-	var dLon = Math.abs(lng1-lng2);
-	var teta = Math.atan2(dLon,dTeta);
-	var direction = Math.round((teta * 180 / Math.PI));
-	return direction;
-}
-
-
-    let dTeta = Math.log(
-      Math.tan(latitude / 2) +
-        Math.PI / 4 / Math.tan(targetLat / 2 + Math.PI / 4)
-    );
-    let dLon = Math.abs(targetLon - longitude);
-    let teta = Math.atan2(dLon, dTeta);
-    let direction = Math.round((teta * 180) / Math.PI);
-    */
-
     let point1 = {
       x: latitude,
       y: longitude,
@@ -69,8 +48,8 @@ getDirection(lat1, lng1, lat2, lng2) {
       (Math.atan2(point1.x - point1.y, point2.x - point2.y) * 180) / Math.PI;
 
     setDirection(returnDeg);
-    if (getOS === "iOS") setOrientation(returnDeg - alpha);
-    if (getOS === "Android") setOrientation(alpha - returnDeg);
+    setOrientation(returnDeg - alpha);
+    //setOrientation(alpha - returnDeg);
   }, [latitude, longitude, targetLat, targetLon, alpha]);
 
   const getDistance = useMemo(() => {
@@ -137,7 +116,7 @@ getDirection(lat1, lng1, lat2, lng2) {
       </h1>
 
       <h1>Distance: {angleDeg} meter</h1>
-      <h1>Derecton: {direction}</h1>
+      <h1>Direction: {direction}</h1>
       <h1>Orientation {orientation} deg</h1>
 
       <h1>
