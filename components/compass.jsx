@@ -8,7 +8,7 @@ export default function Compass({ targetLat, targetLon }) {
   const [longitude, setLongitude] = useState(0);
   const [orientation, setOrientation] = useState(0);
   const [direction, setDirection] = useState(0);
-  const [distance, setDistance] = useState(0);
+  const [angleDeg, setAngleDeg] = useState(0);
   const [clicked, setClicked] = useState(false);
 
   const [alpha, setAlpha] = useState();
@@ -44,7 +44,7 @@ getDirection(lat1, lng1, lat2, lng2) {
 	var direction = Math.round((teta * 180 / Math.PI));
 	return direction;
 }
-*/
+
 
     let dTeta = Math.log(
       Math.tan(latitude / 2) +
@@ -53,10 +53,23 @@ getDirection(lat1, lng1, lat2, lng2) {
     let dLon = Math.abs(targetLon - longitude);
     let teta = Math.atan2(dLon, dTeta);
     let direction = Math.round((teta * 180) / Math.PI);
+    */
 
-    setDirection(direction);
-    setOrientation(direction - alpha);
-  }, [latitude, longitude, targetLat, targetLon, alpha]);
+    let point1 = {
+      x: latitude,
+      y: longitude,
+    };
+    let point2 = {
+      x: targetLat,
+      y: targetLon,
+    };
+
+    let returnDeg =
+      (Math.atan2(point1.x - point1.y, point2.x - point2.y) * 180) / Math.PI;
+
+    setDirection(returnDeg);
+    setOrientation(alpha - returnDeg);
+  }, [latitude, longitude, targetLat, targetLon, alpha, direction]);
 
   const getDistance = useMemo(() => {
     let lat1 = (latitude * Math.PI) / 180;
@@ -74,7 +87,7 @@ getDirection(lat1, lng1, lat2, lng2) {
     let c = 2 * Math.asin(Math.sqrt(a));
     //calculate to m
     let radius = 3956;
-    return setDistance(c * radius * 1000);
+    return setAngleDeg(c * radius * 1000);
   }, [latitude, longitude, targetLat, targetLon]);
 
   function handleClick() {
@@ -121,7 +134,8 @@ getDirection(lat1, lng1, lat2, lng2) {
         Lat: {latitude} Long: {longitude}
       </h1>
 
-      <h1>Distance: {distance} meter</h1>
+      <h1>Distance: {angleDeg} meter</h1>
+      <h1>Derecton: {direction}</h1>
       <h1>Orientation {orientation} deg</h1>
 
       <h1>
