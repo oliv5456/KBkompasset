@@ -8,6 +8,7 @@ export default function Compass({ targetLat, targetLon }) {
   const [longitude, setLongitude] = useState(0);
   const [orientation, setOrientation] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [distance, setDistance] = useState(0);
   const [clicked, setClicked] = useState(false);
 
   const [alpha, setAlpha] = useState();
@@ -43,8 +44,8 @@ export default function Compass({ targetLat, targetLon }) {
     let direction = Math.round((teta * 180) / Math.PI);
 
     setDirection(direction);
-    setOrientation(alpha + direction);
-  }, [latitude, longitude, targetLat, targetLon, alpha]);
+    setOrientation(direction - alpha);
+  }, [latitude, longitude, targetLat, targetLon, alpha, distance]);
 
   const getDistance = useMemo(() => {
     let lat1 = (latitude * Math.PI) / 180;
@@ -62,9 +63,7 @@ export default function Compass({ targetLat, targetLon }) {
     let c = 2 * Math.asin(Math.sqrt(a));
     //calculate to m
     let radius = 3956;
-
-    let returnValue = c * radius * 1000;
-    return returnValue;
+    return setDistance(c * radius * 1000);
   }, [latitude, longitude, targetLat, targetLon]);
 
   function handleClick() {
@@ -111,8 +110,8 @@ export default function Compass({ targetLat, targetLon }) {
         Lat: {latitude} Long: {longitude}
       </h1>
 
-      <h1>Distance: {getDistance} meter</h1>
-      <h1>Orientation {direction} deg</h1>
+      <h1>Distance: {distance} meter</h1>
+      <h1>Orientation {orientation} deg</h1>
 
       <h1>
         Kælder Baren: {targetLat}, {targetLon}
