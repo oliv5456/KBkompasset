@@ -135,6 +135,8 @@ export default function Compass({ targetLat, targetLon }) {
           justifyContent: "center",
           alignContent: "center",
           transform: `rotate(${orientation}deg)`,
+          transition: "ease-in",
+          transitionDuration: "400ms",
           transformOrigin: "center",
         }}
       >

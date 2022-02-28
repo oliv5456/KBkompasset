@@ -4,24 +4,25 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import compassImg from "../public/compass.svg";
 import styled, { CompassTheme } from "styled-components";
 import Compass from "../components/compass";
+import { BrowserView, MobileOnlyView } from "react-device-detect";
+import { Container, Row } from "react-bootstrap";
+
 
 const Home = () => {
   return (
     <>
+	<BrowserView>
+		<Container fluid className="bg-danger vh-100">
+			<div className="flex-column">
+				<h1 className="text-center text-white align-middle">Du skal bruge iphone eller android for at bruge kompasset :(</h1>
+			</div>
+		</Container>
+	</BrowserView>
+	<MobileOnlyView>
       <Compass targetLat={55.7864419} targetLon={12.5234279} />
+	</MobileOnlyView>
     </>
   );
 };
-
-/*
-getDirection(lat1, lng1, lat2, lng2) {
-	var PI = Math.PI;
-	var dTeta = Math.log(Math.tan((lat2/2)+(PI/4))/Math.tan((lat1/2)+(PI/4)));
-	var dLon = Math.abs(lng1-lng2);
-	var teta = Math.atan2(dLon,dTeta);
-	var direction = Math.round((teta * 180 / Math.PI));
-	return direction;
-}
-*/
 
 export default Home;
