@@ -17,7 +17,7 @@ const Home = () => {
 				<Col md={2}></Col>
 				<Col md={8} className="text-center">
 					<div>
-						<h1 className="text-center text-white">Du skal bruge iphone eller android for at bruge kompasset :(</h1>
+						<h1 className="text-center text-white">Du skal bruge iPhone eller Android for at bruge kompasset :(</h1>
 					</div>
 				</Col>
 				<Col md={2}></Col>
