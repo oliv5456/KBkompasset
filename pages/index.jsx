@@ -24,7 +24,7 @@ const Home = () => {
 			</Row>
 		</Container>
 	</BrowserView>
-	<MobileOnlyView className="bg-body">
+	<MobileOnlyView className="bg-white">
       <Compass targetLat={55.7864419} targetLon={12.5234279} />
 	</MobileOnlyView>
     </>
