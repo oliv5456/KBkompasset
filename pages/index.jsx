@@ -11,9 +11,6 @@ import { Container, Row, Col } from "react-bootstrap";
 const Home = () => {
   return (
     <>
-	<MobileOnlyView className="bg-body">
-      <Compass targetLat={55.7864419} targetLon={12.5234279} />
-	</MobileOnlyView>
 	<BrowserView>
 		<Container fluid className="bg-danger vh-100 m-auto d-flex justify-content-center align-items-center">
 			<Row>
@@ -27,6 +24,9 @@ const Home = () => {
 			</Row>
 		</Container>
 	</BrowserView>
+	<MobileOnlyView className="bg-body">
+      <Compass targetLat={55.7864419} targetLon={12.5234279} />
+	</MobileOnlyView>
     </>
   );
 };
