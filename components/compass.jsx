@@ -35,7 +35,7 @@ export default function Compass({ targetLat, targetLon }) {
     setErrorText(positionError.message);
   }
 
-  const getDirection = useCallback(() => {
+  const getAngle = useCallback(() => {
     let point1 = {
       x: latitude,
       y: longitude,
@@ -105,12 +105,12 @@ export default function Compass({ targetLat, targetLon }) {
 
   useEffect(() => {
     if (clicked) {
-      getDirection();
+      getAngle();
       getLocation();
       getDistance;
       orientation;
     }
-  }, [clicked, getLocation, getDistance, getDirection, orientation]);
+  }, [clicked, getLocation, getDistance, getAngle, orientation]);
 
   return (
     <>
@@ -120,7 +120,7 @@ export default function Compass({ targetLat, targetLon }) {
       </h1>
 
       <h1>Distance: {distance} meter</h1>
-      <h1>Direction: {angleDeg}</h1>
+      <h1>Angle: {angleDeg} deg</h1>
       <h1>Orientation {orientation} deg</h1>
 
       <h1>
